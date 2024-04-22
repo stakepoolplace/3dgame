@@ -2,7 +2,7 @@ from ursina import *
 from parameters import EnhancedFirstPersonController
 from environment.materials import Granite
 from environment.obstacles import Mur, Barriere, Pyramide
-from environment.environments import Axis, Grid, Arbre, Chene, Sol, Boite
+from environment.environments import Axis, Grid, Arbre, Chene, Sol, Boite, Maison
 
 def setup_environment(creatif_mode=False):
     # Création des axes pour visualiser les directions
@@ -10,7 +10,7 @@ def setup_environment(creatif_mode=False):
         Axis()
         Grid()
         
-    Sol(scale=(50, 1, 50), position=(0, -0.1, 0))  # Création du sol
+    Sol(scale=(1000, 1, 1000), position=(0, -0.1, 0))  # Création du sol
 
     # Création des murs
     Mur(position=(25, 1, 0), scale=(1, 3, 25))  # Mur Est
@@ -20,7 +20,7 @@ def setup_environment(creatif_mode=False):
 
     Barriere(position=(5, 0, 5), scale=(1, 3, 10))  # 
     
-    Pyramide(position=(0,0,0))
+    Pyramide(position=(16,0,0))
 
     Chene(position=(-10, 2, -10))
     Arbre(position=(-15, 2, -10))
@@ -36,21 +36,23 @@ def setup_environment(creatif_mode=False):
 
     Boite(position=(20, 0.5, 10), scale=(2, 1.5, 2))
 
+    # Création de la maison
+    maison = Maison(position=(30, 0, 30), scale=(2, 1, 2))
 
 def main():
     app = Ursina()
     window.fullscreen = True
-    creatif_mode = True
+    creatif_mode = False
     
     setup_environment(creatif_mode)
 
     if creatif_mode:
         EditorCamera()
     else:
-        Sky()
         player_controller = EnhancedFirstPersonController()
         player_controller.gravity = 0.5
 
+    Sky()
     mouse.locked = True  # Verrouille le curseur au centre de l'écran
 
     app.run()

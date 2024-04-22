@@ -1,4 +1,4 @@
-from ursina import Entity, Vec3, color, load_texture
+from ursina import Mesh, Entity, Vec3, color, load_texture
 
 class Axis(Entity):
     def __init__(self):
@@ -82,3 +82,61 @@ class Boite(Entity):
             position=Vec3(0, 0.65, 0),  # Positionnement au-dessus de la base
             color=color.rgb(150, 75, 0)  # Couleur marron pour le haut
         )
+        
+class Toit(Entity):
+    def __init__(self, position=(0, 0, 0), scale=(1, 1, 1)):
+        super().__init__()
+        self.position = position
+        self.scale = scale
+
+        # Définir les vertices de l'objet pour un toit à deux pentes
+        vertices = [
+            Vec3(-5, 0, -5),  #0 Point arrière gauche de la base
+            Vec3(5, 0, -5),   #1 Point arrière droit de la base
+            Vec3(-5, 0, 5),   #2 Point avant gauche de la base
+            Vec3(5, 0, 5),    #3 Point avant droit de la base
+            Vec3(0, 4, 0)     #4 Pointe du toit
+        ]
+
+        # Définir les triangles en utilisant les indices des vertices
+        triangles = [
+            (1, 0, 4),  # Triangle de droite Attention: L'ordre affecte la visibilité du triangle face interieure ou exterieure
+            (2, 3, 4),   # Triangle de gauche
+            (0, 2, 4),   # Triangle 
+            (3, 1, 4)   # Triangle 
+        ]
+
+
+        # Créer le mesh avec les vertices et triangles, mode 'line' pour voir les arêtes
+        mesh = Mesh(vertices=vertices, triangles=triangles, mode='triangle')
+        self.model = mesh
+        self.color = color.blue
+
+class Maison(Entity):
+    def __init__(self, position=(0, 0, 0), scale=(1, 1, 1)):
+        super().__init__()
+        self.position = position
+        self.scale = scale
+        self.build_walls()
+        self.build_furniture()
+        self.build_roof()
+
+    def build_walls(self):
+        # Créer les murs de la maison
+        floor = Entity(model='cube', scale=(10, 0.1, 10), color=color.light_gray, collider='box', parent=self)
+        wall1 = Entity(model='cube', scale=(10, 12, 0.1), position=(0, 6, 5), color=color.rgb(255, 250, 240), parent=self)
+        wall2 = Entity(model='cube', scale=(10, 12, 0.1), position=(0, 6, -5), color=color.rgb(255, 250, 240), parent=self)
+        wall3 = Entity(model='cube', scale=(0.1, 12, 10), position=(5, 6, 0), color=color.rgb(255, 250, 240), parent=self)
+        wall4 = Entity(model='cube', scale=(0.1, 12, 10), position=(-5, 6, 0), color=color.rgb(255, 250, 240), parent=self)
+
+    def build_roof(self):
+        # Utiliser la classe Toit pour créer le toit
+        self.roof = Toit(position=(0, 12, 0), scale=(1.5, 4, 1.5))  # Position et échelle ajustées pour la maison
+        self.roof.parent = self
+
+    def build_furniture(self):
+        # Ajouter des meubles
+        self.sofa = Entity(model='cube', scale=(2, 0.5, 1), position=(2, 0.25, 3), color=color.brown, parent=self)
+        self.tv = Entity(model='cube', scale=(0.5, 1, 1.5), position=(-3, 0.5, 3), color=color.black, parent=self)
+        self.table = Entity(model='cube', scale=(2, 0.5, 1), position=(0, 0.25, -3), color=color.dark_gray, parent=self)
+        self.bed = Entity(model='cube', scale=(2, 0.5, 2), position=(-2, 0.25, -3), color=color.blue, parent=self)

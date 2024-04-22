@@ -25,23 +25,25 @@ class Barriere(Entity):
         self.color = color.rgba(255, 255, 255, int(alpha * 255))  # Définir la transparence ici, alpha doit être entre 0 et 1
 
 class Pyramide(Entity):
-    def __init__(self, position=(0,0,0)):
+    def __init__(self, position=(0, 0, 0), scale=(1, 1, 1)):
         super().__init__()
+        self.position = position
+        self.scale = scale
 
         # Définir les vertices de l'objet
         vertices = [
-            Vec3(position[0], position[1], position[2]),   # Vertex 0
-            Vec3(position[0] + 1, position[1], position[2]),   # Vertex 1
-            Vec3(position[0] + 0.5, position[1] + 0, position[2] + 1), # Vertex 2
-            Vec3(position[0] + 0.5, position[1] + 1, position[2] + 0.5)# Vertex 3 (sommet de la pyramide)
+            Vec3(0, 0, 0),  # Base front left
+            Vec3(1, 0, 0),  # Base front right
+            Vec3(0.5, 0, 1),  # Base back center
+            Vec3(0.5, 1, 0.5)  # Top center
         ]
 
         # Définir les triangles en utilisant les indices des vertices
         triangles = [
-            (0, 1, 2),  # Base triangle 1
-            (0, 1, 3),  # Side triangle 2
-            (1, 2, 3),  # Side triangle 3
-            (2, 0, 3)   # Side triangle 4
+            (0, 1, 2),  # Base
+            (0, 1, 3),  # Side 1
+            (1, 2, 3),  # Side 2
+            (2, 0, 3)   # Side 3
         ]
 
         # Créer le mesh avec les vertices et triangles
