@@ -4,6 +4,7 @@ from environment.materials import Granite
 from environment.obstacles import Mur, Barriere, Pyramide
 from environment.environments import Axis, Grid, Arbre, Chene, Sol, Boite, Maison
 
+
 def setup_environment(creatif_mode=False):
     # Création des axes pour visualiser les directions
     if creatif_mode:

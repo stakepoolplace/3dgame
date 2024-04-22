@@ -1,5 +1,7 @@
 # 3DGame Starter Kit for Ursina by Eric Marchand
 
+![Ursina](snapshot.png "Starter for Ursina")
+
 ## Introduction
 `3dgame` is a starter kit designed for developing 3D games using the Ursina engine. This project aims to provide a solid foundation for quick 3D game development in Python by integrating necessary libraries and setting up the initial development environment.
 
